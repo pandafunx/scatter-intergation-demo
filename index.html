@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Scatter DEMO</title>
-    <script type="text/javascript" src="/static/js/eos.js"></script>
+    <script type="text/javascript" src="/js/eos.js"></script>
 </head>
 
 <body>
@@ -16,7 +16,8 @@ Hi this is Scatter Demo, Please see console logs.
 
 
         const scatter = window.scatter;
-        //防止别的网页应用 调用window.scatter 对象
+        // It is good practice to take this off the window once you have 
+         // a reference to it.
         window.scatter = null;
 
         // If you want to require a specific version of Scatter
@@ -28,33 +29,33 @@ Hi this is Scatter Demo, Please see console logs.
             host: '39.105.91.238',//'127.0.0.1', // ( or null if endorsed chainId )
             port: 8888, // ( or null if defaulting to 80 )
         }
-        //EOS参数，仅签名不广播交易
+        //EOS options
         const eosOptions = {
-            broadcost : false
+            broadcast : true  // put it false, then the transaction should not be broadcost
         }
-        //给用户推荐网络， 第一次需要授权
+        //suggesct net work to user
         scatter.suggestNetwork(eosNetwork);
 
-        // scatter.getIdentity 用户授权页面
-        scatter.getIdentity({ accounts:[eosNetwork],personal:['email'] }).then(
+        // scatter.getIdentity 用
+        scatter.getIdentity({ accounts:[eosNetwork] }).then(
             identity => {
 
-                //1. 用户授权完成后，获取用户的EOS帐号名字（12位长度），传给后台完成登录or注册操作操作
+                //1. get EOS account name
                 const account = identity.accounts.find(acc => acc.blockchain === 'eos');
-                console.log("1. 用户授权完成后，获取用户信息，提交给后台完成用户登录or注册",identity);
+                console.log("identity info",identity);
 
 
-                //获取EOS instance
+                //get EOS instance
                 const eos = scatter.eos(eosNetwork, Eos.Localnet, eosOptions,"http");
 
                 const requiredFields = {
                     accounts:[eosNetwork]
                 }
                 const amount = "1.0000 SYS";
-                //执行智能合约
+                //exexute contract
                 eos.contract('eosio.token',{requiredFields}).then(contract => {
                     contract.transfer(account.name, "havefunhavef", amount, '').then(trx => {
-                        console.log("2.获取签名后的交易，前端需要将此数据传入后台", trx);
+                        console.log("get siged transaction data", trx);
                     }).catch(e => {
                         console.log("error", e);
                         if (e.toString().includes("overdrawn balance")) {
