@@ -3,7 +3,7 @@ EOS DApp integrate with Scatter
 
 
 
-This is a very simple Demo project to show that hwo to sign a EOS transactions with Scatter.
+This is a very simple Demo project to show that how to sign a EOS transaction with Scatter.
 
 
 Env:
@@ -32,3 +32,6 @@ Pre-requires:
 5. And demo account info :
 	account :	 letsgoletsgo
 	private key: 5JyMMNXdeky8DeQCQRkgfMBcAJ2kAme1Xvfs89ZZC1NX5jwBV3B
+
+
+Welcome to visit our EOS DApp Game: http://pandafun.io 
