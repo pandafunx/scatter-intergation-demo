@@ -8,9 +8,13 @@ This is a very simple Demo project to show that how to sign a EOS transaction wi
 
 
 ## Env:
-	Scatter: 	4.0+
-	EOS Dawn: 	4.2
-	EOSJS:  	13.x.x For more version info : https://github.com/EOSIO/eosjs
+	Scatter Classic: 	6.1.7       https://github.com/GetScatter/ScatterWebExtension
+	scatter-js:         2.4         https://github.com/GetScatter/scatter-js
+	Scatter Desktop:    v8.6.0      https://github.com/GetScatter/ScatterDesktop/releases
+	EOS:                1.1.1
+	"eosjs":            "^16.0.0",  https://github.com/eosio/eosjs
+    "eosjs-api":        "^6.3.2",
+    "eosjs-ecc":        "^4.0.2",
 
 
 ## Pre-requirements:
