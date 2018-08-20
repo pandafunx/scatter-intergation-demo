@@ -49,7 +49,7 @@ This is a very simple Demo project to show that how to sign a EOS transaction wi
     npm run build_browser
     # builds: ./dist/eos.js load with ./dist/index.html
     
-## Welcome to visit our EOS DApp game <a href="http://www.pandafun.io">pandafun</a>
+## Welcome to visit our EOS DApp game <a href="http://www.pandafun.io">PandaFun</a>
     
     Panda Fun is the first real-time tactics blockchain dApp game based on EOS in the world! 
     It combines all the exciting features of Monopoly except you'll be able to also train
