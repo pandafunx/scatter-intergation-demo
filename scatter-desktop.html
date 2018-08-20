@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scatter Desktop</title>
+</head>
+<script type="text/javascript" src="/static/js/eos.js"></script>
+<script src="/static/js/scatter.min.js"></script>
+<body>
+
+please see console
+<script>
+
+
+
+    scatter.connect("PandaFun").then(connected => {
+        if(!connected) {
+            // User does not have Scatter Desktop or Classic installed.
+            return false;
+        }
+
+
+        const eosNetwork = {
+            protocol: "http",
+            blockchain: 'eos',
+            host: '39.105.91.238',//'127.0.0.1', // ( or null if endorsed chainId )
+            port: 8888, // ( or null if defaulting to 80 )
+            chainId: '9b1897428e03c107aa16ec0d4a72f3594867d4bd3c9ca3363a1bb638a2e1f206'
+        }
+
+//        scatter.suggestNetwork(eosNetwork);
+
+        scatter.getIdentity({accounts: [eosNetwork]}).then(
+            identity => {
+
+                //1. 用户授权完成后，获取用户的EOS帐号名字（12位长度），传给后台完成登录or注册操作操作
+                const account = identity.accounts.find(acc => acc.blockchain === 'eos');
+                console.log("1. 用户授权完成后，获取用户信息，提交给后台完成用户登录or注册", identity);
+//                const  chainId = "9b1897428e03c107aa16ec0d4a72f3594867d4bd3c9ca3363a1bb638a2e1f206"
+                //EOS参数，仅签名不广播交易
+                const eosOptions = {
+                    broadcast: true,
+//                    chainId: "9b1897428e03c107aa16ec0d4a72f3594867d4bd3c9ca3363a1bb638a2e1f206"
+                }
+                //获取EOS instance
+                const eos = scatter.eos(eosNetwork, Eos, eosOptions, "http");
+                window.eos = eos;
+                const requiredFields = {
+                    accounts: [eosNetwork],
+//                    chainId:"9b1897428e03c107aa16ec0d4a72f3594867d4bd3c9ca3363a1bb638a2e1f206"
+                }
+                const amount = "1.0000 EOS";
+                const options = {
+                    authorization: [
+                        `${account.name}@${account.authority}`,
+                    ]
+                };
+//                //执行智能合约
+                eos.contract('eosio.token',{requiredFields}).then(contract => {
+                    contract.transfer(account.name, "bbb", amount, 'buycandles|40',options).then(trx => {
+                        console.log("2.获取签名后的交易，前端需要将此数据传入后台", trx);
+                    }).catch(e => {
+                        console.log("error", e);
+                        if (e.toString().includes("overdrawn balance")) {
+                            alert("No money, go back to Getting Started and refill")
+                        }
+                    })
+                });
+
+
+            }).catch(
+            e => {
+                console.log("error", e);
+            }
+        );
+    });
+
+</script>
+</body>
+</html>
